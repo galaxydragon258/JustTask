@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import { Menu, X, User, Settings, LogOut, Home, Check } from 'lucide-react';
 
 export default function App() {
