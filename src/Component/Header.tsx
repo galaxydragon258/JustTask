@@ -27,14 +27,14 @@ function Header() {
                         {/* Desktop Nav */}
                         <div className="hidden md:flex items-center gap-6">
                             {navItems.map((item) => (
-                                <a
+                                <Link 
                                     key={item.name}
-                                    href={item.Link}
+                                    to={item.Link}
                                     className="flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-white transition-colors"
                                 >
                                     <item.icon size={16} />
                                     {item.name}
-                                </a>
+                                </Link>
                             ))}
                         </div>
                     </div>
@@ -85,14 +85,14 @@ function Header() {
                 {mobileMenuOpen && (
                     <div className="md:hidden py-4 space-y-1 border-t border-zinc-800">
                         {navItems.map((item) => (
-                            <a
+                            <Link
                                 key={item.name}
-                                href={item.href}
+                                to={item.Link}
                                 className="flex items-center gap-3 px-2 py-2 text-sm font-medium text-zinc-400 rounded-lg hover:bg-zinc-900 hover:text-white"
                             >
                                 <item.icon size={18} />
                                 {item.name}
-                            </a>
+                            </Link>
                         ))}
                     </div>
                 )}
