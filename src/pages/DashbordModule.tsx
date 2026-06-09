@@ -1,46 +1,67 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect,type KeyboardEvent } from 'react';
 import { Plus, Check, AlertCircle, Trash2, Play, Pause, RotateCcw, Clock, Inbox } from 'lucide-react';
 import Header from '../Component/Header';
 
+interface Task {
+    id: number;
+    text: string;
+    done: boolean;
+    due: 'today' | 'tomorrow' | 'overdue' | 'inbox';
+    priority: 'high' | null;
+}
 
+interface InboxItem {
+    id: number;
+    text: string;
+}
+
+interface UpNextItem {
+    id: number;
+    text: string;
+    time: string;
+}
 
 export default function Dashboard() {
-    const [quickAddText, setQuickAddText] = useState('');
-    const [todayTasks, setTodayTasks] = useState([
+    const [quickAddText, setQuickAddText] = useState<string>('');
+    const [todayTasks, setTodayTasks] = useState<Task[]>([
         { id: 1, text: 'Ship App v1.0', done: false, due: 'today', priority: 'high' },
         { id: 2, text: 'Review notes', done: true, due: 'today', priority: null },
         { id: 3, text: 'Gym', done: false, due: 'overdue', priority: null },
     ]);
-    const [inbox, setInbox] = useState([
+    const [inbox, setInbox] = useState<InboxItem[]>([
         { id: 4, text: 'Buy coffee beans' },
         { id: 5, text: 'Call mom' },
     ]);
-    const [upNext] = useState([
+    const [upNext] = useState<UpNextItem[]>([
         { id: 1, text: 'Team standup', time: '2:00 PM' },
         { id: 2, text: 'Design review', time: '4:30 PM' },
     ]);
-    const [focusTask, setFocusTask] = useState(null);
-    const [isRunning, setIsRunning] = useState(false);
-    const [time, setTime] = useState(25 * 60);
-    const [streak, setStreak] = useState(12);
+    const [focusTask, setFocusTask] = useState<Task | null>(null);
+    const [isRunning, setIsRunning] = useState<boolean>(false);
+    const [time, setTime] = useState<number>(25 * 60);
+    const [streak, setStreak] = useState<number>(12);
 
     // Timer
     useEffect(() => {
-        let interval = null;
+        let interval: ReturnType<typeof setInterval> | null = null;
         if (isRunning && time > 0) {
             interval = setInterval(() => setTime(t => t - 1), 1000);
         } else if (time === 0) {
             setIsRunning(false);
         }
-        return () => clearInterval(interval);
+        return () => {
+            if (interval) clearInterval(interval);
+        };
     }, [isRunning, time]);
 
     const completedToday = todayTasks.filter(t => t.done).length;
-    const weekComplete = Math.round((completedToday / todayTasks.length) * 100) || 0;
+    const weekComplete = todayTasks.length > 0
+        ? Math.round((completedToday / todayTasks.length) * 100)
+        : 0;
 
-    const handleQuickAdd = (e) => {
+    const handleQuickAdd = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter' && quickAddText.trim()) {
-            const newTask = {
+            const newTask: Task = {
                 id: Date.now(),
                 text: quickAddText,
                 done: false,
@@ -52,35 +73,35 @@ export default function Dashboard() {
         }
     };
 
-    const toggleTask = (id) => {
+    const toggleTask = (id: number) => {
         setTodayTasks(todayTasks.map(t => t.id === id ? { ...t, done: !t.done } : t));
     };
 
-    const deleteTask = (id) => {
+    const deleteTask = (id: number) => {
         setTodayTasks(todayTasks.filter(t => t.id !== id));
     };
 
-    const startFocus = (task) => {
+    const startFocus = (task: Task) => {
         setFocusTask(task);
         setTime(25 * 60);
         setIsRunning(true);
     };
 
-    const formatTime = (seconds) => {
+    const formatTime = (seconds: number): string => {
         const mins = Math.floor(seconds / 60);
         const secs = seconds % 60;
         return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     };
 
-    const moveInboxToTasks = (item) => {
-        setTodayTasks([{ ...item, done: false, due: 'today', priority: null }, ...todayTasks]);
+    const moveInboxToTasks = (item: InboxItem) => {
+        const newTask: Task = { ...item, done: false, due: 'today', priority: null };
+        setTodayTasks([newTask, ...todayTasks]);
         setInbox(inbox.filter(i => i.id !== item.id));
     };
 
     return (
         <div className="min-h-screen bg-black text-zinc-100 antialiased">
-
-            <Header/>
+            <Header />
             {/* Dashboard Content */}
             <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
                 <div className="grid lg:grid-cols-3 gap-6">

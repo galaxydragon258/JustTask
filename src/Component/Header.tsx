@@ -1,14 +1,13 @@
 import { Menu, X, User, Settings, LogOut, Home } from 'lucide-react';
 import { Link } from 'react-router-dom'
-
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [userMenuOpen, setUserMenuOpen] = useState(false);
     const navItems = [
-        { name: 'Dashboard', icon: Home, href: '/dashboard' },
-        { name: 'Settings', icon: Settings, href: '/' },
+        { name: 'Dashboard', icon: Home, Link: '/dashboard' },
+        { name: 'Settings', icon: Settings, Link: '/' },
     ];
     return (
         <header className="sticky top-0 z-50 bg-black/70 backdrop-blur-lg border-b border-zinc-800">
@@ -30,7 +29,7 @@ function Header() {
                             {navItems.map((item) => (
                                 <a
                                     key={item.name}
-                                    href={item.href}
+                                    href={item.Link}
                                     className="flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-white transition-colors"
                                 >
                                     <item.icon size={16} />
