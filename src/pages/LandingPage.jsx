@@ -32,7 +32,9 @@ function LandingPage() {
         return (
             <div className="min-h-screen bg-black flex items-center justify-center">
                 <div className="text-center">
-                    <div className="h-12 w-12 rounded-lg bg-white animate-pulse mx-auto mb-4"></div>
+                    <img className="h-12 w-12 rounded-lg bg-white animate-pulse mx-auto mb-4"
+                    src='/logo.png'
+                    ></img>
                     <div className="flex gap-1 justify-center">
                         <span className="h-2 w-2 bg-white rounded-full animate-bounce [animation-delay:-0.3s]"></span>
                         <span className="h-2 w-2 bg-white rounded-full animate-bounce [animation-delay:-0.15s]"></span>
