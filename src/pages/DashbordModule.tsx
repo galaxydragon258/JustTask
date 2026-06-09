@@ -39,7 +39,7 @@ export default function Dashboard() {
     const [focusTask, setFocusTask] = useState<Task | null>(null);
     const [isRunning, setIsRunning] = useState<boolean>(false);
     const [time, setTime] = useState<number>(25 * 60);
-    const [streak, setStreak] = useState<number>(12);
+    const [streak] = useState<number>(12);
 
     // Timer
     useEffect(() => {
