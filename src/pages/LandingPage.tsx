@@ -7,7 +7,6 @@ interface Task {
   text: string;
   done: boolean;
 }
-
 function LandingPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [tasks, setTasks] = useState<Task[]>([

@@ -1,33 +1,43 @@
-import { Menu, X, User, Settings, LogOut, Home } from 'lucide-react';
-import { Link } from 'react-router-dom'
+import { Menu, X, User, Settings, LogOut, Home, ListCheck } from 'lucide-react';
+import { Link,useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
 function Header() {
+    const navigate = useNavigate();
+
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [userMenuOpen, setUserMenuOpen] = useState(false);
     const navItems = [
         { name: 'Dashboard', icon: Home, Link: '/dashboard' },
         { name: 'Settings', icon: Settings, Link: '/' },
+        {name:'Task Page', icon: ListCheck, Link: '/taskpages'}
+
     ];
+
+    const handleLogoClick = () => {
+        navigate('/');
+    };
+
     return (
         <header className="sticky top-0 z-50 bg-black/70 backdrop-blur-lg border-b border-zinc-800">
             <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
                     <div className="flex items-center gap-8">
-                        <div className="flex items-center gap-2">
-                            <div className="h-8 w-8 rounded-lg bg-white hidden">
-                                <img
-                                    src="/logo.png"
-                                    alt="App Logo"
-                                    className="h-full w-full object-cover"
-                                />
-                            </div>                <span className="text-xl font-bold">App</span>
+                        <div className="flex items-center gap-2"
+                        onClick={handleLogoClick}
+                        >
+                            <img
+                                className='h-6 w-6 sm:h-8 sm:w-8 lg:h-10 lg:w-10 bg-white 
+                            rounded-lg object-contain'
+                                src='/logo.png'
+                            />
+                            <span className="text-xl font-bold">App</span>
                         </div>
 
                         {/* Desktop Nav */}
                         <div className="hidden md:flex items-center gap-6">
                             {navItems.map((item) => (
-                                <Link 
+                                <Link
                                     key={item.name}
                                     to={item.Link}
                                     className="flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-white transition-colors"
